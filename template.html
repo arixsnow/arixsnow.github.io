@@ -1,0 +1,1002 @@
+<!doctype html>
+<html
+  lang="en"
+  x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
+  x-bind:class="{ 'dark': darkMode }"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="assets/avatar.png" type="image/x-icon" />
+    <title>{{ title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      [x-cloak] {
+        display: none !important;
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: "#f0f9ff",
+                100: "#e0f2fe",
+                200: "#bae6fd",
+                300: "#7dd3fc",
+                400: "#38bdf8",
+                500: "#0ea5e9",
+                600: "#0284c7",
+                700: "#0369a1",
+                800: "#075985",
+                900: "#0c4a6e",
+              },
+              secondary: {
+                50: "#f5f3ff",
+                100: "#ede9fe",
+                200: "#ddd6fe",
+                300: "#c4b5fd",
+                400: "#a78bfa",
+                500: "#8b5cf6",
+                600: "#7c3aed",
+                700: "#6d28d9",
+                800: "#5b21b6",
+                900: "#4c1d95",
+              },
+              gray: {
+                50: "#fafafa",
+                100: "#f4f4f5",
+                200: "#e4e4e7",
+                300: "#d4d4d8",
+                400: "#a1a1aa",
+                500: "#71717a",
+                600: "#52525b",
+                700: "#3f3f46",
+                800: "#27272a",
+                900: "#18181b",
+              },
+              violet: {
+                50: "#f5f3ff",
+                100: "#ede9fe",
+                200: "#ddd6fe",
+                300: "#cab5fd",
+                400: "#b08bfa",
+                500: "#8b5cf6",
+                600: "#6d28d9",
+                700: "#4c1d95",
+                800: "#381672",
+                900: "#2e1069",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            animation: {
+              "bounce-x": "bounce-x 1s infinite",
+            },
+            keyframes: {
+              "bounce-x": {
+                "0%, 100%": { transform: "translateX(0)" },
+                "50%": { transform: "translateX(4px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 font-sans antialiased">
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-sm fixed w-full z-10">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <a
+            href="#hero"
+            class="text-xl font-bold text-gray-800 dark:text-gray-100"
+            >{{ name }}</a
+          >
+          <div
+            x-data="{ open: false, darkMode: localStorage.getItem('darkMode') === 'true' }"
+            x-init="$watch('darkMode', val => document.documentElement.classList.toggle('dark', val))"
+          >
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-6">
+              {%1 if section.about %}
+              <a
+                href="#about"
+                class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >About</a
+              >
+              {%1 endif %} {%1 if section.experiences %}
+              <a
+                href="#experience"
+                class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >Experiences</a
+              >
+              {%1 endif %} {%1 if section.projects %}
+              <a
+                href="#projects"
+                class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >Projects</a
+              >
+              {%1 endif %} {%1 if section.publications %}
+              <a
+                href="#research"
+                class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >Research</a
+              >
+              {%1 endif %}
+              <a
+                href="#contact"
+                class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >Contact</a
+              >
+              <button
+                @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)"
+                class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                <svg
+                  x-show="!darkMode"
+                  class="w-6 h-6 text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  />
+                </svg>
+                <svg
+                  x-show="darkMode"
+                  class="w-6 h-6 text-primary-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button
+              @click="open = !open"
+              class="md:hidden p-2 rounded-lg transition-transform duration-300"
+              :class="{'rotate-90': open}"
+            >
+              <svg
+                x-show="!open"
+                class="w-8 h-8 text-gray-600 dark:text-gray-300 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+              <svg
+                x-show="open"
+                class="w-8 h-8 text-gray-600 dark:text-gray-300 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <!-- Mobile Menu -->
+            <div
+              x-show="open"
+              x-transition
+              class="md:hidden absolute top-16 left-0 w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg py-4"
+            >
+              <div class="flex flex-col items-center gap-4">
+                {%1 if section.about %}
+                <a
+                  href="#about"
+                  class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  >About</a
+                >
+                {%1 endif %} {%1 if section.experiences %}
+                <a
+                  href="#experience"
+                  class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  >Experiences</a
+                >
+                {%1 endif %} {%1 if section.projects %}
+                <a
+                  href="#projects"
+                  class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  >Projects</a
+                >
+                {%1 endif %} {%1 if section.publications %}
+                <a
+                  href="#research"
+                  class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  >Research</a
+                >
+                {%1 endif %}
+                <a
+                  href="#contact"
+                  class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  >Contact</a
+                >
+                <button
+                  @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)"
+                  class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                >
+                  <svg
+                    x-show="!darkMode"
+                    class="w-6 h-6 text-gray-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                    />
+                  </svg>
+                  <svg
+                    x-show="darkMode"
+                    class="w-6 h-6 text-primary-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header
+      id="hero"
+      class="pt-32 pb-16 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-gray-800 dark:to-gray-700"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/3 mb-8 flex md:justify-end">
+            <img
+              src="assets/avatar.png"
+              alt="Arka Mondal"
+              draggable="false"
+              oncontextmenu="return false"
+              class="rounded-full w-64 h-64 object-cover border-4 border-white dark:border-gray-800 shadow-[0_0_20px_rgba(0,0,0,0.2)] dark:shadow-primary-800"
+            />
+          </div>
+
+          <div class="md:w-2/3 text-center md:text-left">
+            <h1
+              class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-tight"
+            >
+              {{ about }}
+            </h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
+              {{ subabout }}
+            </p>
+            <div class="flex justify-center md:justify-start gap-4">
+              <a
+                href="#cv"
+                class="bg-primary-600 text-white px-8 py-3 rounded-lg hover:bg-primary-700 transition-colors shadow-lg"
+              >
+                Download CV
+              </a>
+              <a
+                href="#projects"
+                class="border-2 border-primary-600 text-primary-600 dark:text-primary-400 px-8 py-3 rounded-lg hover:bg-primary-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                View Projects
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- About Section -->
+    {%1 if section.about %}
+    <section id="about" class="py-20">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-12 text-center relative pb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 after:h-1 after:bg-primary-600"
+        >
+          About Me
+        </h2>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Education Card -->
+          <div
+            class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transition-all hover:shadow-xl"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div class="p-3 bg-primary-100 dark:bg-primary-900/20 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-primary-600 dark:text-primary-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 14l9-5-9-5-9 5 9 5zM12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+                  />
+                </svg>
+              </div>
+              <h3
+                class="text-2xl font-semibold text-gray-800 dark:text-gray-200"
+              >
+                Education
+              </h3>
+            </div>
+            <div class="space-y-4">
+              {%1 for edu in education %}
+              <div
+                class="border-l-4 border-primary-200 dark:border-primary-800 pl-4"
+              >
+                <h4
+                  class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                >
+                  {{ edu.institute }}
+                </h4>
+                <p class="text-gray-600 dark:text-gray-400 mt-1">
+                  {{ edu.degree }}<br />
+                  <span class="text-sm">{{ edu.duration }}</span>
+                </p>
+              </div>
+              {%1 endfor %}
+            </div>
+          </div>
+
+          <!-- Skills Card -->
+          <div
+            class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transition-all hover:shadow-xl"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div class="p-3 bg-primary-100 dark:bg-primary-900/20 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-primary-600 dark:text-primary-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h3
+                class="text-2xl font-semibold text-gray-800 dark:text-gray-200"
+              >
+                Technical Skills
+              </h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              {%1 for techskill in techskills %}
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full text-sm font-medium"
+              >
+                {{ techskill }}
+              </span>
+              {%1 endfor %}
+            </div>
+          </div>
+
+          <!-- Research Card -->
+          <div
+            class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg transition-all hover:shadow-xl"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div class="p-3 bg-primary-100 dark:bg-primary-900/20 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-primary-600 dark:text-primary-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                  />
+                </svg>
+              </div>
+              <h3
+                class="text-2xl font-semibold text-gray-800 dark:text-gray-200"
+              >
+                Research Interests
+              </h3>
+            </div>
+            <ul class="space-y-3">
+              {%1 for researchinterest in researchinterests %}
+              <li class="flex items-center text-gray-700 dark:text-gray-300">
+                <svg
+                  class="w-4 h-4 mr-2 text-primary-600 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  />
+                </svg>
+                {{ researchinterest }}
+              </li>
+              {%1 endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    {%1 endif %}
+
+    <!-- Experience Section -->
+    {%1 if section.experiences %}
+    <section id="experience" class="py-16 bg-white dark:bg-gray-800">
+      <div class="max-w-6xl mx-auto px-4">
+        <h2
+          class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-12 relative pb-4 text-center after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 after:h-1 after:bg-blue-600"
+        >
+          Experience
+        </h2>
+
+        <div class="space-y-8">
+          {%1 for experience in experiences%}
+          <div
+            class="bg-gray-50 dark:bg-gray-700 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all"
+          >
+            <div class="flex items-start justify-between">
+              <div>
+                <h3
+                  class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2"
+                >
+                  {{ experience.title }}
+                </h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                  <a href="{{ experience.url | default:# }}" target="_blank"
+                    >{{ experience.company }}</a
+                  >
+                </p>
+                <div
+                  class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400"
+                >
+                  <span class="flex items-start gap-1">
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    {{ experience.duration }}
+                  </span>
+                  <span class="flex items-start gap-1">
+                    <svg
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                    {{ experience.type }}
+                  </span>
+                </div>
+              </div>
+              <div class="flex-shrink-0">
+                <div
+                  class="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center"
+                >
+                  <svg
+                    class="w-6 h-6 text-blue-600 dark:text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 space-y-3">
+              <h4
+                class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide"
+              >
+                Key Contributions
+              </h4>
+              {%2 for contribution in experience.contributions %}
+              <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+                <li class="flex items-start">
+                  <svg
+                    class="w-4 h-4 mt-1 mr-2 text-blue-600 dark:text-blue-400 flex-shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    />
+                  </svg>
+                  {{ contribution }}
+                </li>
+              </ul>
+              {%2 endfor %}
+            </div>
+          </div>
+          {%1 endfor %}
+        </div>
+      </div>
+    </section>
+    {%1 endif %}
+
+    <!-- Projects Section -->
+    {%1 if section.projects %}
+    <section
+      id="projects"
+      class="py-16 bg-gray-50 dark:bg-gray-900"
+      x-data="{ openModal: null }"
+    >
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-12 text-center relative pb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 after:h-1 after:bg-primary-600"
+        >
+          Featured Projects
+        </h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {%1 for project in projects %}
+          <div
+            class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg transition-all hover:shadow-xl"
+          >
+            <div class="mb-4">
+              <h3
+                class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2"
+              >
+                {{ project.title }}
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 line-clamp-3">
+                {{ project.description }}
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-4">
+              {%2 for tech in project.coretechnologies %}
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full text-sm"
+              >
+                {{ tech }}
+              </span>
+              {%2 endfor %}
+            </div>
+            <button
+              @click="openModal = '{{ project.title }}'"
+              class="w-full text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium flex items-center justify-center group"
+            >
+              View Details
+              <svg
+                class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          {%1 endfor %}
+        </div>
+      </div>
+
+      <!-- Project Modal -->
+      {%1 for project in projects %}
+      <div
+        x-show="openModal === '{{ project.title }}'"
+        @click.away="openModal = null"
+        class="fixed inset-0 z-50 overflow-y-auto"
+        x-cloak
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+      >
+        <!-- Backdrop -->
+        <div
+          class="fixed inset-0 bg-black/50 backdrop-blur-sm"
+          @click="openModal = null"
+          x-transition:enter="ease-out duration-300"
+          x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100"
+          x-transition:leave="ease-in duration-300"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+        ></div>
+
+        <!-- Modal Content -->
+        <div class="flex items-center justify-center min-h-screen px-4">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl relative max-w-2xl w-full p-8 mx-auto border border-gray-100 dark:border-gray-700 transform transition-all"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-y-4"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="ease-in duration-300"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 translate-y-4"
+          >
+            <!-- Close Button -->
+            <button
+              @click="openModal = null"
+              class="absolute top-5 right-5 text-gray-400 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-1 rounded-full"
+            >
+              <svg
+                class="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="space-y-3">
+              <h3 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                {{ project.title }}
+              </h3>
+              <div
+                class="h-[2px] w-16 bg-blue-600 dark:bg-blue-500 rounded-full"
+              ></div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="prose dark:prose-invert max-w-none mt-6">
+              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                {{ project.description }}
+              </p>
+
+              <!-- Key Features -->
+              <div class="mt-6 space-y-4">
+                {%2 for highlight in project.keyhighlights %}
+                <div class="flex items-center space-x-3">
+                  <div class="flex-shrink-0">
+                    <div
+                      class="w-6 h-6 rounded-md bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 dark:text-gray-300">
+                    <span class="font-semibold text-gray-900 dark:text-gray-100"
+                      >{{ highlight.strong }}</span
+                    >
+                    {{ highlight.normal }}
+                  </p>
+                </div>
+                {%2 endfor %}
+              </div>
+
+              <!-- Tech Stack -->
+              <div class="mt-8">
+                <h4
+                  class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3"
+                >
+                  Core Technologies
+                </h4>
+                <div class="flex flex-wrap gap-2">
+                  {%2 for tech in project.coretechnologies %}
+                  <span
+                    class="px-3 py-1.5 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium"
+                  >
+                    {{ tech }}
+                  </span>
+                  {%2 endfor %}
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div
+              class="pt-6 border-t border-gray-100 dark:border-gray-700 mt-6"
+            >
+              <div class="flex flex-col sm:flex-row gap-3">
+                <a
+                  href="{{ project.github }}"
+                  target="_blank"
+                  class="inline-flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors shadow-sm hover:shadow-md"
+                >
+                  <svg
+                    class="w-5 h-5 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  View Repository
+                </a>
+                <button
+                  @click="openModal = null"
+                  class="px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  Close Preview
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {%1 endfor %}
+    </section>
+    {%1 endif %}
+
+    <!-- Research Section -->
+    {%1 if section.publications %}
+    <section id="research" class="py-20 bg-white dark:bg-gray-800">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-12 text-center relative pb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 after:h-1 after:bg-primary-600"
+        >
+          Research Publications
+        </h2>
+
+        <div class="space-y-6 max-w-3xl mx-auto">
+          {%1 for publication in publications %}
+          <div
+            class="bg-gray-50 dark:bg-gray-700 p-6 rounded-2xl shadow-lg transition-all hover:shadow-xl"
+          >
+            <div class="flex items-start gap-4">
+              <div class="p-3 bg-primary-100 dark:bg-primary-900/20 rounded-lg">
+                <svg
+                  class="w-6 h-6 text-primary-600 dark:text-primary-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2"
+                >
+                  {{ publication.title }}
+                </h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-3">
+                  {{ publication.publisher}} | {{ publication.year }}
+                </p>
+                <div class="flex gap-4">
+                  <a
+                    href="{{ publication.pdf }}"
+                    target="_blank"
+                    class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 flex items-center"
+                  >
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                    PDF
+                  </a>
+                  <a
+                    href="{{ publication.code }}"
+                    target="_blank"
+                    class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 flex items-center"
+                  >
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    Code
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {%1 endfor %}
+        </div>
+      </div>
+    </section>
+    {%1 endif %}
+
+    <!-- Contact Section -->
+    <footer
+      id="contact"
+      class="bg-gray-50 dark:bg-gray-900 text-gray-100 py-12"
+    >
+      <div class="container mx-auto px-6 md:px-12">
+        <div
+          class="md:flex justify-between items-center text-center md:text-left"
+        >
+          <div class="mb-6 md:mb-0">
+            <h3 class="text-3xl font-semibold text-gray-900 dark:text-gray-100">
+              Let's Connect
+            </h3>
+          </div>
+          <div class="flex justify-center md:justify-start gap-6">
+            <a href="https://github.com/arixsnow" target="_blank" class="group">
+              <svg
+                class="w-8 h-8 text-gray-700 dark:text-gray-300 group-hover:text-primary-500 transition"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </a>
+
+            <a href="mailto:arkamondalofficial@gmail.com" class="group">
+              <svg
+                class="w-8 h-8 text-gray-700 dark:text-gray-300 group-hover:text-primary-500 transition"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                />
+              </svg>
+            </a>
+
+            <a
+              href="https://linkedin.com/in/arka-mondal"
+              target="_blank"
+              class="group"
+            >
+              <svg
+                class="w-8 h-8 text-gray-700 dark:text-gray-300 group-hover:text-primary-500 transition"
+                fill="currentColor"
+                viewBox="0 0 50 50"
+              >
+                <path
+                  d="M41,4H9C6.24,4,4,6.24,4,9v32c0,2.76,2.24,5,5,5h32c2.76,0,5-2.24,5-5V9C46,6.24,43.76,4,41,4z M17,20v19h-6V20H17z M11,14.47c0-1.4,1.2-2.47,3-2.47s2.93,1.07,3,2.47c0,1.4-1.12,2.53-3,2.53C12.2,17,11,15.87,11,14.47z M39,39h-6c0,0,0-9.26,0-10 c0-2-1-4-3.5-4.04h-0.08C27,24.96,26,27.02,26,29c0,0.91,0,10,0,10h-6V20h6v2.56c0,0,1.93-2.56,5.81-2.56 c3.97,0,7.19,2.73,7.19,8.26V39z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div
+          class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center"
+        >
+          <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">
+            &copy; {{ year }} {{ name }}. Built with passion &
+            <svg
+              class="w-5 h-5 text-red-600 dark:text-red-400 inline-block transition-transform hover:scale-110 hover:-translate-y-0.5"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-label="Love"
+            >
+              <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+              />
+            </svg>
+          </p>
+          <p class="mt-2 text-gray-500 dark:text-gray-400 text-sm">
+            This site is generated using
+            <a
+              href="https://github.com/arixsnow/monolith"
+              target="_blank"
+              class="text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition"
+            >
+              Monolith
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

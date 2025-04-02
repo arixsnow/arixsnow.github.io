@@ -1,0 +1,160 @@
+template: template.html
+render: portfolio.html
+title: Arka Mondal | System Software Enthusiast
+
+year: 2025
+name: Arka Mondal
+github: https://github.com/arixsnow
+email: arkamondalofficial@gmail.com
+linkedin: https://linkedin.com/in/arka-mondal
+
+about: System Software Researcher &amp;<br />Linux Device Driver Developer
+subabout: B.Tech in Computer Science & Engineering @ IIIT Sri City
+
+section:
+  about: True
+  experiences: True
+  projects: True
+  publications: False
+
+education:
+  - institute: IIIT Sri City
+    degree: B.Tech in Computer Science & Engineering
+    duration: Dec 2021 - Present
+
+  - institute: Contai High School
+    degree: HSC (PCM)
+    duration: Jan 2015 - Jul 2020
+
+techskills:
+  - C
+  - x86 Assembly
+  - Python
+  - GoLang
+  - Linux APIs
+  - Linux Device Driver
+
+researchinterests:
+  - System Software
+  - Operating System
+  - File System
+
+experiences:
+  - title: Lead Organizer
+    company: HackTheBreach @ IIIT Sri City
+    url: https://www.hackthebreach.xyz
+    duration: Jan 2025 - Present
+    type: On-site
+    contributions:
+      - Oranized the bootcamp where around 250 people participated.
+
+  - title: Club President
+    company: Enigma Club @ IIIT Sri City
+    url: https://www.enigma-iiits.in
+    duration: Aug 2023 - Jul 2024
+    type: On-site
+    contributions:
+      - Managed and revitalized the club by introducing new directions.
+
+  - title: Undergraduate Teaching Assistant
+    company: Indian Institute of Information Technology, Sri City
+    url: https://www.iiits.ac.in
+    duration: Jan 2024 - Apr 2024
+    type: Part-time | On-site
+    contributions:
+      - I worked as a teaching assistant for the Computer Architecture course.
+      - Assisting students in better understanding x86 assembly.
+
+projects:
+  - title: Tinix
+    description: A tiny x86 Operating System Kernel
+    coretechnologies:
+      - C
+      - x86 Assembly
+      - qemu
+    keyhighlights:
+      - normal: A tiny operating system kernel
+    github: https://github.com/arixsnow/tinix
+
+  - title: crtfile
+    description: A Linux command-line utility program for creating files.
+    coretechnologies:
+      - C
+      - POSIX APIs
+    keyhighlights:
+      - strong: crtfile
+        normal: is command-line utility program for creating (or truncating) file(s) with specified permission flags.
+    github: https://github.com/arixsnow/crtfile
+
+  - title: xmlpx
+    description: Yet Another Simple XML Parser in C
+    coretechnologies:
+      - C
+      - POSIX APIs
+      - XML
+    github: https://github.com/arixsnow/xmlpx
+  - title: clibds
+    description: A Generic data-structure library written in C
+    coretechnologies:
+      - C
+      - POSIX Threads
+    github: https://github.com/arixsnow/clibds
+
+  - title: monolith
+    description: A template engine
+    coretechnologies:
+      - Python
+      - YAML
+    github: https://github.com/arixsnow/monolith
+
+  - title: htbbot
+    description: A discord bot for managing HackTheBreach Event.
+    coretechnologies:
+      - Python
+      - JSON
+    keyhighlights:
+      - normal: "A bot for verifying participants, maintaining the records, and moderating the discord server with other useful utilities."
+    github: https://github.com/Hack-The-Breach/htbbot
+
+  - title: sstring
+    description: Simple String Library written in C
+    coretechnologies:
+      - C
+    keyhighlights:
+      - strong: Backwards compatible
+        normal: with c-strings.
+    github: https://github.com/arixsnow/sstring
+
+  - title: rlz
+    description: A utility to compress file using run-length encoding.
+    coretechnologies:
+      - C
+      - POSIX Threads
+    keyhighlights:
+      - normal: "Based on Parallel Zip (pzip) project of CS-537: Introduction to Operating Systems course at University of Wisconsin, Madison."
+    github: https://github.com/arixsnow/rlz
+
+  - title: mapreduce
+    description: A simple Map-Reduce Library
+    coretechnologies:
+      - C
+      - POSIX Threads
+    keyhighlights:
+      - normal: "Based on MapReduce project of CS-537: Introduction to Operating Systems course at University of Wisconsin, Madison."
+    github: https://github.com/arixsnow/mapreduce
+
+  - title: ldd3
+    description: A port of "Linux Device Drivers 3" for newer Linux Kernels
+    coretechnologies:
+      - C
+      - Linux Loadable Modules
+      - Makefile
+      - Linux Build-system
+    github: https://github.com/arixsnow/ldd3
+
+publications:
+  - title: Optimizing File System Journaling for SSDs
+    publisher: ACM Transactions on Storage
+    year: 2023
+    pdf: "#"
+    code: "#"

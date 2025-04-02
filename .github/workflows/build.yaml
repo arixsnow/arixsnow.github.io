@@ -1,0 +1,47 @@
+name: Generate and Deploy Portfolio
+
+on:
+  push:
+    branches:
+      - master # Trigger on pushes to the master branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Website Repository
+        uses: actions/checkout@v3
+
+      - name: Clone Template Engine Repository
+        run: git clone https://github.com/arixsnow/monolith
+
+      - name: Copy Configuration and Template
+        run: |
+          cp portfolio.yaml monolith/content/
+          cp template.html monolith/templates/
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        run: pip install -r monolith/requirements.txt
+
+      - name: Run Template Engine
+        run: |
+          cd monolith
+          python generate.py portfolio.yaml
+          cd ..
+
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git checkout gh-pages || git checkout --orphan gh-pages
+          git rm -rf .
+          cp -v monolith/output/portfolio.html ./index.html
+          git add index.html
+          git commit -m "Deploy portfolio site update - $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          git push --force-with-lease origin gh-pages
