@@ -40,9 +40,8 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git checkout gh-pages || git checkout --orphan gh-pages
-          git pull origin gh-pages --rebase || echo "No remote branch yet"
           git rm -rf .
           cp -v monolith/output/portfolio.html ./index.html
           git add index.html
           git commit -m "Deploy portfolio site update - $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
-          git push --force-with-lease origin gh-pages
+          git push --force origin gh-pages
