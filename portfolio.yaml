@@ -114,7 +114,7 @@ projects:
       - JSON
     keyhighlights:
       - normal: "A bot for verifying participants, maintaining the records, and moderating the discord server with other useful utilities."
-    github: https://github.com/Hack-The-Breach/htbbot
+    github: https://github.com/arixsnow/htbbot
 
   - title: sstring
     description: Simple String Library written in C
